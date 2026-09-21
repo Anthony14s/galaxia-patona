@@ -1,0 +1,960 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para ti, Patona 🌻</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#02030a;
+    color:white;
+}
+
+/* =========================
+   FONDO
+========================= */
+
+body{
+    background:
+        radial-gradient(circle at center,
+        #302000 0%,
+        #0c0a04 28%,
+        #03040c 65%,
+        #000 100%);
+}
+
+/* =========================
+   ESTRELLAS
+========================= */
+
+#stars{
+    position:fixed;
+    inset:0;
+    z-index:0;
+}
+
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:white;
+    border-radius:50%;
+    animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+    from{
+        opacity:.2;
+        transform:scale(.6);
+    }
+    to{
+        opacity:1;
+        transform:scale(1.5);
+    }
+}
+
+/* =========================
+   PANTALLA DE INICIO
+========================= */
+
+#inicio{
+    position:fixed;
+    inset:0;
+    z-index:20;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:
+        radial-gradient(circle,
+        rgba(80,55,0,.35),
+        rgba(0,0,0,.95) 70%);
+    transition:opacity 1s ease, visibility 1s ease;
+}
+
+#inicio.oculto{
+    opacity:0;
+    visibility:hidden;
+}
+
+.titulo{
+    font-size:clamp(40px,8vw,90px);
+    color:#ffd83d;
+    text-shadow:
+        0 0 10px #ffcf00,
+        0 0 30px #ffae00,
+        0 0 70px rgba(255,180,0,.6);
+    animation:pulse 3s infinite;
+}
+
+.subtitulo{
+    margin-top:15px;
+    font-size:clamp(18px,3vw,28px);
+    color:#fff;
+}
+
+.descripcion{
+    margin-top:12px;
+    max-width:600px;
+    padding:0 20px;
+    color:#ccc;
+    font-size:16px;
+}
+
+@keyframes pulse{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.04)}
+}
+
+.boton{
+    margin-top:35px;
+    padding:16px 32px;
+    border:2px solid #ffd83d;
+    border-radius:40px;
+    background:rgba(255,190,0,.12);
+    color:#ffd83d;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:
+        0 0 15px rgba(255,200,0,.4);
+    transition:.3s;
+}
+
+.boton:hover{
+    background:#ffd83d;
+    color:#171000;
+    transform:scale(1.08);
+    box-shadow:
+        0 0 25px #ffd83d,
+        0 0 60px rgba(255,200,0,.5);
+}
+
+/* =========================
+   GALAXIA
+========================= */
+
+#galaxia{
+    position:fixed;
+    inset:0;
+    display:none;
+    z-index:5;
+    overflow:hidden;
+}
+
+#galaxia.activa{
+    display:block;
+}
+
+.nucleo{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:170px;
+    height:170px;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:
+        radial-gradient(circle,
+        #fff7a0 0%,
+        #ffd52e 18%,
+        #ffae00 40%,
+        rgba(255,180,0,.25) 65%,
+        transparent 72%);
+    filter:blur(1px);
+    box-shadow:
+        0 0 30px #ffd000,
+        0 0 80px rgba(255,190,0,.7),
+        0 0 150px rgba(255,170,0,.35);
+    animation:nucleo 4s infinite alternate;
+}
+
+@keyframes nucleo{
+    from{transform:translate(-50%,-50%) scale(.9)}
+    to{transform:translate(-50%,-50%) scale(1.15)}
+}
+
+/* =========================
+   ORBITAS
+========================= */
+
+.orbita{
+    position:absolute;
+    left:50%;
+    top:50%;
+    border:1px solid rgba(255,220,80,.16);
+    border-radius:50%;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+}
+
+.o1{
+    width:380px;
+    height:180px;
+}
+
+.o2{
+    width:600px;
+    height:290px;
+}
+
+.o3{
+    width:850px;
+    height:410px;
+}
+
+.o4{
+    width:1100px;
+    height:520px;
+}
+
+/* =========================
+   CONTENEDOR DE FLORES
+========================= */
+
+#universo{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:1px;
+    height:1px;
+    transform-style:preserve-3d;
+}
+
+/* =========================
+   FLORES
+========================= */
+
+.flor{
+    position:absolute;
+    width:48px;
+    height:48px;
+    transform-style:preserve-3d;
+    cursor:pointer;
+    user-select:none;
+}
+
+.petalo{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:20px;
+    height:30px;
+    background:linear-gradient(#fff47a,#ffcf00);
+    border-radius:50% 50% 45% 45%;
+    transform-origin:50% 100%;
+    box-shadow:0 0 8px rgba(255,215,0,.8);
+}
+
+.petalo:nth-child(1){transform:translate(-50%,-100%) rotate(0deg)}
+.petalo:nth-child(2){transform:translate(-50%,-100%) rotate(45deg)}
+.petalo:nth-child(3){transform:translate(-50%,-100%) rotate(90deg)}
+.petalo:nth-child(4){transform:translate(-50%,-100%) rotate(135deg)}
+.petalo:nth-child(5){transform:translate(-50%,-100%) rotate(180deg)}
+.petalo:nth-child(6){transform:translate(-50%,-100%) rotate(225deg)}
+.petalo:nth-child(7){transform:translate(-50%,-100%) rotate(270deg)}
+.petalo:nth-child(8){transform:translate(-50%,-100%) rotate(315deg)}
+
+.centro{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:15px;
+    height:15px;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:#5b3500;
+    box-shadow:
+        0 0 6px #ffdb00;
+}
+
+/* =========================
+   FRASES
+========================= */
+
+.frase{
+    position:absolute;
+    width:170px;
+    padding:7px 10px;
+    border-radius:15px;
+    background:rgba(10,10,10,.65);
+    border:1px solid rgba(255,216,61,.45);
+    color:#ffe873;
+    text-align:center;
+    font-size:13px;
+    pointer-events:none;
+    text-shadow:0 0 5px #000;
+    backdrop-filter:blur(3px);
+}
+
+/* =========================
+   ENCABEZADO
+========================= */
+
+#encabezado{
+    position:absolute;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:10;
+    text-align:center;
+    width:90%;
+    pointer-events:none;
+}
+
+#encabezado h1{
+    color:#ffd83d;
+    font-size:clamp(25px,5vw,45px);
+    text-shadow:0 0 15px #ffb700;
+}
+
+#encabezado p{
+    color:#ddd;
+    font-size:13px;
+    margin-top:5px;
+}
+
+/* =========================
+   CONTROLES
+========================= */
+
+.controles{
+    position:absolute;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:20;
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.control{
+    border:1px solid #ffd83d;
+    background:rgba(0,0,0,.65);
+    color:#ffd83d;
+    border-radius:30px;
+    padding:12px 18px;
+    cursor:pointer;
+    backdrop-filter:blur(5px);
+}
+
+.control:hover{
+    background:#ffd83d;
+    color:#111;
+}
+
+/* =========================
+   MENSAJE
+========================= */
+
+#mensaje{
+    position:absolute;
+    left:50%;
+    bottom:85px;
+    transform:translateX(-50%);
+    z-index:20;
+    width:min(500px,90%);
+    padding:15px;
+    text-align:center;
+    border-radius:15px;
+    background:rgba(0,0,0,.75);
+    border:1px solid rgba(255,216,61,.5);
+    color:#fff;
+    opacity:0;
+    transition:.5s;
+    pointer-events:none;
+}
+
+#mensaje.mostrar{
+    opacity:1;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:600px){
+
+    .titulo{
+        font-size:45px;
+    }
+
+    .descripcion{
+        font-size:14px;
+    }
+
+    .nucleo{
+        width:120px;
+        height:120px;
+    }
+
+    .o1{
+        width:270px;
+        height:130px;
+    }
+
+    .o2{
+        width:430px;
+        height:210px;
+    }
+
+    .o3{
+        width:650px;
+        height:310px;
+    }
+
+    .o4{
+        width:850px;
+        height:400px;
+    }
+
+    .flor{
+        transform:scale(.8);
+    }
+
+    .frase{
+        font-size:11px;
+        width:130px;
+    }
+
+    .control{
+        padding:10px 13px;
+        font-size:12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ESTRELLAS -->
+<div id="stars"></div>
+
+<!-- =========================
+     INICIO
+========================= -->
+
+<section id="inicio">
+
+    <div class="titulo">
+        🌻
+    </div>
+
+    <h1 class="subtitulo">
+        Inicio para ti, Patona
+    </h1>
+
+    <p class="descripcion">
+        Porque entre tantas personas en el universo,
+        tenía que tocarme la amiga más cargosa,
+        hostigosa, celosa y tóxica de todas. 😂💛
+    </p>
+
+    <button class="boton" onclick="entrar()">
+        ✨ INGRESAR A MI GALAXIA ✨
+    </button>
+
+</section>
+
+
+<!-- =========================
+     GALAXIA
+========================= -->
+
+<section id="galaxia">
+
+    <div id="encabezado">
+        <h1>🌻 Para ti, Patona 🌻</h1>
+        <p>Una pequeña galaxia hecha especialmente para ti</p>
+    </div>
+
+    <div class="orbita o1"></div>
+    <div class="orbita o2"></div>
+    <div class="orbita o3"></div>
+    <div class="orbita o4"></div>
+
+    <div class="nucleo"></div>
+
+    <div id="universo"></div>
+
+    <div id="mensaje"></div>
+
+    <div class="controles">
+
+        <button class="control" onclick="toggleMusica()">
+            🎵 Música
+        </button>
+
+        <button class="control" onclick="velocidad(-1)">
+            ◀
+        </button>
+
+        <button class="control" onclick="velocidad(1)">
+            ▶
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     MÚSICA
+========================= -->
+
+<audio id="musica" loop>
+    <source src="flores-amarillas.mp3" type="audio/mpeg">
+</audio>
+
+
+<script>
+
+/* =========================================
+   CREAR ESTRELLAS
+========================================= */
+
+const estrellas = document.getElementById("stars");
+
+for(let i=0;i<180;i++){
+
+    const estrella = document.createElement("div");
+
+    estrella.className="star";
+
+    estrella.style.left = Math.random()*100+"%";
+    estrella.style.top = Math.random()*100+"%";
+
+    const tamaño = Math.random()*3+1;
+
+    estrella.style.width=tamaño+"px";
+    estrella.style.height=tamaño+"px";
+
+    estrella.style.animationDelay =
+        (Math.random()*3)+"s";
+
+    estrellas.appendChild(estrella);
+}
+
+
+/* =========================================
+   ENTRAR
+========================================= */
+
+function entrar(){
+
+    document.getElementById("inicio")
+        .classList.add("oculto");
+
+    setTimeout(()=>{
+
+        document.getElementById("galaxia")
+            .classList.add("activa");
+
+    },700);
+}
+
+
+/* =========================================
+   FRASES
+========================================= */
+
+const frases=[
+
+    "🌻 Para ti, Patona",
+
+    "😂 Por cargosa",
+
+    "😒 Por hostigosa",
+
+    "👀 Por celosa",
+
+    "😂 Por tóxica",
+
+    "🤦‍♂️ Por no dejarme tranquilo",
+
+    "🤣 Por molestarme todos los días",
+
+    "❤️ Por aguantarme",
+
+    "🌻 Por estar cuando te necesito",
+
+    "😂 Por las locuras",
+
+    "✨ Por cada momento",
+
+    "💛 Por ser mi mejor amiga",
+
+    "🌻 Porque aunque seas insoportable... te quiero",
+
+    "😂 Porque alguien tenía que soportarte",
+
+    "❤️ Por nuestra amistad",
+
+    "🌌 Porque algunas personas son estrellas",
+
+    "🌻 Y tú eres mi flor amarilla",
+
+    "♾️ Por todos los momentos que faltan",
+
+    "🥹 Gracias por estar",
+
+    "💛 Esta galaxia es para ti"
+
+];
+
+
+/* =========================================
+   CREAR FLORES
+========================================= */
+
+const universo =
+    document.getElementById("universo");
+
+const flores=[];
+
+for(let i=0;i<35;i++){
+
+    const flor=document.createElement("div");
+
+    flor.className="flor";
+
+    for(let p=0;p<8;p++){
+
+        const petalo=
+            document.createElement("div");
+
+        petalo.className="petalo";
+
+        flor.appendChild(petalo);
+    }
+
+    const centro=
+        document.createElement("div");
+
+    centro.className="centro";
+
+    flor.appendChild(centro);
+
+    universo.appendChild(flor);
+
+    flores.push({
+
+        elemento:flor,
+
+        angulo:Math.random()*Math.PI*2,
+
+        radio:180+Math.random()*430,
+
+        altura:(Math.random()-.5)*250,
+
+        velocidad:
+            (.0005+Math.random()*.0015)
+            *(Math.random()>.5?1:-1)
+
+    });
+
+}
+
+
+/* =========================================
+   CREAR FRASES
+========================================= */
+
+const frasesElementos=[];
+
+frases.forEach((texto,i)=>{
+
+    const elemento=
+        document.createElement("div");
+
+    elemento.className="frase";
+
+    elemento.innerHTML=texto;
+
+    universo.appendChild(elemento);
+
+    frasesElementos.push({
+
+        elemento:elemento,
+
+        angulo:Math.random()*Math.PI*2,
+
+        radio:170+Math.random()*420,
+
+        altura:(Math.random()-.5)*280,
+
+        velocidad:
+            (.0004+Math.random()*.001)
+            *(Math.random()>.5?1:-1)
+
+    });
+
+});
+
+
+/* =========================================
+   ANIMACIÓN
+========================================= */
+
+let velocidadGlobal=1;
+
+function animar(){
+
+    flores.forEach(f=>{
+
+        f.angulo +=
+            f.velocidad*velocidadGlobal;
+
+        const x=
+            Math.cos(f.angulo)*f.radio;
+
+        const z=
+            Math.sin(f.angulo)*f.radio;
+
+        const y=f.altura;
+
+        f.elemento.style.transform=
+            `translate3d(${x}px,${y}px,${z}px)
+             scale(${0.65+((z+500)/1000)})`;
+
+    });
+
+
+    frasesElementos.forEach(f=>{
+
+        f.angulo +=
+            f.velocidad*velocidadGlobal;
+
+        const x=
+            Math.cos(f.angulo)*f.radio;
+
+        const z=
+            Math.sin(f.angulo)*f.radio;
+
+        const y=f.altura;
+
+        f.elemento.style.transform=
+            `translate3d(${x}px,${y}px,${z}px)`;
+
+    });
+
+
+    requestAnimationFrame(animar);
+}
+
+animar();
+
+
+/* =========================================
+   CONTROL DE VELOCIDAD
+========================================= */
+
+function velocidad(valor){
+
+    velocidadGlobal += valor*.25;
+
+    if(velocidadGlobal<.25)
+        velocidadGlobal=.25;
+
+    if(velocidadGlobal>3)
+        velocidadGlobal=3;
+}
+
+
+/* =========================================
+   MÚSICA
+========================================= */
+
+const musica=
+    document.getElementById("musica");
+
+let reproduciendo=false;
+
+function toggleMusica(){
+
+    if(!reproduciendo){
+
+        musica.play()
+        .then(()=>{
+
+            reproduciendo=true;
+
+            mostrarMensaje(
+                "🎵 Reproduciendo tu canción de Flores Amarillas 💛"
+            );
+
+        })
+        .catch(()=>{
+
+            mostrarMensaje(
+                "⚠️ Coloca flores-amarillas.mp3 junto al archivo HTML."
+            );
+
+        });
+
+    }else{
+
+        musica.pause();
+
+        reproduciendo=false;
+
+        mostrarMensaje(
+            "⏸️ Música pausada"
+        );
+    }
+}
+
+
+/* =========================================
+   MENSAJES
+========================================= */
+
+function mostrarMensaje(texto){
+
+    const mensaje=
+        document.getElementById("mensaje");
+
+    mensaje.innerHTML=texto;
+
+    mensaje.classList.add("mostrar");
+
+    setTimeout(()=>{
+
+        mensaje.classList.remove("mostrar");
+
+    },3000);
+}
+
+
+/* =========================================
+   GIRAR GALAXIA CON MOUSE / DEDO
+========================================= */
+
+let rotacionX=0;
+let rotacionY=0;
+
+let presionado=false;
+
+let anteriorX=0;
+let anteriorY=0;
+
+const galaxia=
+    document.getElementById("galaxia");
+
+
+galaxia.addEventListener("mousedown",e=>{
+
+    presionado=true;
+
+    anteriorX=e.clientX;
+    anteriorY=e.clientY;
+
+});
+
+
+window.addEventListener("mouseup",()=>{
+
+    presionado=false;
+
+});
+
+
+window.addEventListener("mousemove",e=>{
+
+    if(!presionado)return;
+
+    const dx=
+        e.clientX-anteriorX;
+
+    const dy=
+        e.clientY-anteriorY;
+
+    rotacionY+=dx*.3;
+
+    rotacionX-=dy*.3;
+
+    anteriorX=e.clientX;
+    anteriorY=e.clientY;
+
+    universo.style.transform=
+        `translate(-50%,-50%)
+         rotateX(${rotacionX}deg)
+         rotateY(${rotacionY}deg)`;
+
+});
+
+
+/* =========================================
+   CONTROL TÁCTIL
+========================================= */
+
+galaxia.addEventListener("touchstart",e=>{
+
+    if(e.touches.length!==1)return;
+
+    anteriorX=e.touches[0].clientX;
+    anteriorY=e.touches[0].clientY;
+
+},{passive:true});
+
+
+galaxia.addEventListener("touchmove",e=>{
+
+    if(e.touches.length!==1)return;
+
+    const dx=
+        e.touches[0].clientX-anteriorX;
+
+    const dy=
+        e.touches[0].clientY-anteriorY;
+
+    rotacionY+=dx*.35;
+
+    rotacionX-=dy*.35;
+
+    anteriorX=e.touches[0].clientX;
+    anteriorY=e.touches[0].clientY;
+
+    universo.style.transform=
+        `translate(-50%,-50%)
+         rotateX(${rotacionX}deg)
+         rotateY(${rotacionY}deg)`;
+
+},{passive:true});
+
+
+/* =========================================
+   CLICK EN FLORES
+========================================= */
+
+flores.forEach((flor,i)=>{
+
+    flor.elemento.addEventListener("click",()=>{
+
+        mostrarMensaje(
+            frases[i % frases.length]
+        );
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
+```
